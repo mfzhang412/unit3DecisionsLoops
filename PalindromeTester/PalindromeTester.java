@@ -34,10 +34,14 @@ public class PalindromeTester
          System.out.println();
 
          if (left < right)
+         {
             System.out.println ("That string is NOT a palindrome.");
+         }
          else
+         {
             System.out.println ("That string IS a palindrome.");
-
+         }
+         
          System.out.println();
          System.out.print ("Test another palindrome (y/n)? ");
          another = s.nextLine();
