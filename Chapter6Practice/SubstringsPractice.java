@@ -9,17 +9,19 @@ public class SubstringsPractice
         String input = scanner.next();
         
         int length = input.length();
-
-        while (length > 0)
+        int index2 = 0;
+        int index;
+        for (int i = 0;
+             i < length;
+             i++)
         {
-            int indexer = length - 1;
-            while (indexer <= 7)
+            index = i;
+            while(i+index2 < length)
             {
-                String output = input.substring(indexer-1, indexer);
-                System.out.println(output);
-                indexer -= 1;               
+                System.out.println(input.substring(index, index+index2));
+                index++;
             }
-            length -= 1;
+            index2++;
         }
     }
 }
