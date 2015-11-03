@@ -8,16 +8,36 @@ public class Diamond
         System.out.print("Enter an integer: ");
         int integer = scanner.nextInt();
         int counter = 0;
+        int i = 0;
         
-        for (int i = 0; i <= integer; i++)
+        for (i = 0; i < integer; i++)
         {
-            for (int index = 0; index < i; index++)
+            for (int spaces = 0; spaces < integer - i; spaces++)
             {
-                int spaces = integer / 2 - 1;
-                for (int number = 0; number < spaces; number++)
+                System.out.print(" ");
+            }
+            if (i == 0)
+            {
+                System.out.print("*");
+            }
+            else
+            {
+                for (int index = 0; index < i * 2 + 1; index++)
                 {
-                    System.out.print(" ");
+                    System.out.print("*");
                 }
+            }
+            System.out.println("");
+        }
+        for (int i2 = 0; i2 < integer - 1; i2++)
+        {
+            System.out.print(" ");
+            for (int spaces = 0; spaces < i2 + 1; spaces++)
+            {
+                System.out.print(" ");
+            }
+            for (int index = i * 2 + 1 - 2 * i2 - 4; index > 0; index--)
+            {
                 System.out.print("*");
             }
             System.out.println("");
