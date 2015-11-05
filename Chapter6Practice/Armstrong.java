@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
-public class MonteCarlo
+public class Armstrong
 {
-    public static void monteCarlo()
+    public static void armstrong()
     {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter an integer (less than 1000): ");
