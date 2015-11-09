@@ -33,7 +33,7 @@ The universe of the Game of Life is an infinite two-dimensional orthogonal
 *******************************************************************************************************
 
 Requirements:
-The grid will be 50 by 50
+The grid will be 15 by 15
 The color of the live cells will be green
 The color of the dead cells will be black
 The beginning pattern will be a 3 by 3 square
