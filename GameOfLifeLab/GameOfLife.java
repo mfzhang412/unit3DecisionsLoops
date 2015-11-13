@@ -1,9 +1,10 @@
- import info.gridworld.actor.Actor;
-import info.gridworld.actor.ActorWorld;
 import info.gridworld.actor.Rock;
+import info.gridworld.actor.ActorWorld;
+import info.gridworld.actor.Actor;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
+import java.util.ArrayList;
 
 /**
  * Game of Life starter code. Demonstrates how to create and populate the game using the GridWorld framework.
@@ -44,10 +45,10 @@ public class GameOfLife
     }
     
     /**
-     * Creates the actors and inserts them into their initial starting positions in the grid
+     * Creates the Actors and inserts them into their initial starting positions in the grid
      *
      * @pre     the grid has been created
-     * @post    all actors that comprise the initial state of the game have been added to the grid
+     * @post    all Actors that comprise the initial state of the game have been added to the grid
      * 
      */
     private void populateGame()
@@ -64,10 +65,10 @@ public class GameOfLife
         final int X33 = 8, Y33 = 8;
 
         // the grid of Actors that maintains the state of the game
-        //  (alive cells contains actors; dead cells do not)
+        //  (alive cells contains Actors; dead cells do not)
         Grid<Actor> grid = world.getGrid();
         
-        // create and add rocks (a type of Actor) to the three intial locations
+        // create and add Actors (a type of Actor) to the three intial locations
         Rock rock11 = new Rock();
         Location loc11 = new Location(Y11, X11);
         grid.put(loc11, rock11);
@@ -113,7 +114,7 @@ public class GameOfLife
      * @post    the world has been populated with a new grid containing the next generation
      * 
      */
-    private void createNextGeneration()
+    public void createNextGeneration()
     {
         /** You will need to read the documentation for the World, Grid, and Location classes
          *      in order to implement the Game of Life algorithm and leverage the GridWorld framework.
@@ -121,24 +122,56 @@ public class GameOfLife
         
         // create the grid, of the specified size, that contains Actors
         Grid<Actor> grid = world.getGrid();
+        BoundedGrid<Actor> newGrid = new BoundedGrid<Actor>(ROWS, COLS);
         
-        // insert magic here...
-        
+        for (int rowNum = 0; rowNum < ROWS; rowNum++)
+        {
+            for (int colNum = 0; colNum < COLS; colNum++)
+            {   
+                Location loc = new Location(rowNum, colNum);
+                if (grid.get(loc) != null)
+                {
+                    ArrayList<Actor> numLive = grid.getNeighbors(loc);
+                    int neighborLive = numLive.size();
+                    if (neighborLive < 2)
+                    {
+                        newGrid.remove(loc);
+                    }
+                    if (neighborLive > 3)
+                    {
+                        newGrid.remove(loc);
+                    }
+                }
+                if (grid.get(loc) == null)
+                {
+                    ArrayList<Actor> numLive = grid.getNeighbors(loc);
+                    int neighborLive = numLive.size();
+                    if (neighborLive == 3)
+                    {
+                        loc = new Location(rowNum, colNum);
+                        newGrid.put(loc, new Rock());
+                    }
+                }
+            }
+        }
+
+        world.setGrid(newGrid);
+        world.show();
     }
     
     /**
-     * Returns the actor at the specified row and column. Intended to be used for unit testing.
+     * Returns the Actor at the specified row and column. Intended to be used for unit testing.
      *
-     * @param   row the row (zero-based index) of the actor to return
-     * @param   col the column (zero-based index) of the actor to return
+     * @param   row the row (zero-based index) of the Actor to return
+     * @param   col the column (zero-based index) of the Actor to return
      * @pre     the grid has been created
-     * @return  the actor at the specified row and column
+     * @return  the Actor at the specified row and column
      */
     public Actor getActor(int row, int col)
     {
         Location loc = new Location(row, col);
-        Actor actor = world.getGrid().get(loc);
-        return actor;
+        Actor Actor = world.getGrid().get(loc);
+        return Actor;
     }
 
     /**
@@ -169,6 +202,10 @@ public class GameOfLife
     public static void main(String[] args)
     {
         GameOfLife game = new GameOfLife();
+        for (int i = 0; i < 3; i++)
+        {
+            game.createNextGeneration();
+        }
     }
 
 }
