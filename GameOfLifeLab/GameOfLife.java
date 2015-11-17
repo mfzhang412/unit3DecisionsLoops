@@ -122,24 +122,27 @@ public class GameOfLife
         
         // create the grid, of the specified size, that contains Actors
         Grid<Actor> grid = world.getGrid();
-        BoundedGrid<Actor> newGrid = new BoundedGrid<Actor>(ROWS, COLS);
+        
+        ArrayList<Location> alive = new ArrayList<Location>();
+        ArrayList<Location> dead = new ArrayList<Location>();
         
         for (int rowNum = 0; rowNum < ROWS; rowNum++)
         {
             for (int colNum = 0; colNum < COLS; colNum++)
             {   
                 Location loc = new Location(rowNum, colNum);
+                
                 if (grid.get(loc) != null)
                 {
                     ArrayList<Actor> numLive = grid.getNeighbors(loc);
                     int neighborLive = numLive.size();
-                    if (neighborLive < 2)
+                    if (neighborLive == 2 || neighborLive == 3)
                     {
-                        newGrid.remove(loc);
+                        alive.add(loc);
                     }
-                    if (neighborLive > 3)
+                    else
                     {
-                        newGrid.remove(loc);
+                        dead.add(loc);
                     }
                 }
                 if (grid.get(loc) == null)
@@ -148,14 +151,26 @@ public class GameOfLife
                     int neighborLive = numLive.size();
                     if (neighborLive == 3)
                     {
-                        loc = new Location(rowNum, colNum);
-                        newGrid.put(loc, new Rock());
+                        alive.add(loc);
+                    }
+                    else
+                    {
+                        dead.add(loc);
                     }
                 }
             }
         }
-
-        world.setGrid(newGrid);
+        
+        for (Location removePlace : dead)
+        {
+            grid.remove(removePlace);
+        }
+        for (Location newPlace : alive)
+        {
+            Rock rock = new Rock();
+            grid.put(newPlace, rock);
+        }
+        world.setGrid(grid);
         world.show();
     }
     
@@ -199,12 +214,14 @@ public class GameOfLife
      * Creates an instance of this class. Provides convenient execution.
      *
      */
-    public static void main(String[] args)
+    public static void main(String[] args) 
+        throws InterruptedException
     {
         GameOfLife game = new GameOfLife();
         for (int i = 0; i < 3; i++)
         {
             game.createNextGeneration();
+            Thread.sleep(1000);
         }
     }
 
